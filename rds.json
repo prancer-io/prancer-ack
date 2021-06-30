@@ -1,0 +1,43 @@
+{
+  "Resources": [
+    {
+      "apiVersion": "rds.services.k8s.aws/v1alpha1",
+      "kind": "DBInstance",
+      "metadata": {
+        "name": "$DB_INSTANCE_ID"
+      },
+      "spec": {
+        "allocatedStorage": 20,
+        "dbInstanceClass": "db.t3.micro",
+        "dbInstanceIdentifier": "$DB_INSTANCE_ID",
+        "engine": "postgres",
+        "engineVersion": "13.2",
+        "masterUsername": "root",
+        "masterUserPassword": {
+          "namespace": "$MASTER_USER_PASS_SECRET_NAMESPACE",
+          "name": "$MASTER_USER_PASS_SECRET_NAME",
+          "key": "$MASTER_USER_PASS_SECRET_KEY"
+        }
+      }
+    },
+    {
+      "apiVersion": "rds.services.k8s.aws/v1alpha1",
+      "kind": "DBCluster",
+      "metadata": {
+        "name": "$DB_CLUSTER_ID"
+      },
+      "spec": {
+        "dbClusterIdentifier": "$DB_CLUSTER_ID",
+        "databaseName": "$DB_NAME",
+        "engine": "aurora-mysql",
+        "engineMode": "serverless",
+        "masterUsername": "root",
+        "masterUserPassword": {
+          "namespace": "$MASTER_USER_PASS_SECRET_NAMESPACE",
+          "name": "$MASTER_USER_PASS_SECRET_NAME",
+          "key": "$MASTER_USER_PASS_SECRET_KEY"
+        }
+      }
+    }
+  ]
+}
